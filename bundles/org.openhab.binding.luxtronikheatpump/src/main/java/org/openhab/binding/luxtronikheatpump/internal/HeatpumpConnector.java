@@ -99,37 +99,8 @@ public class HeatpumpConnector {
      * @throws IOException indicate that no data can be sent to the heat pump
      */
     public Boolean setParam(int param, int value) throws IOException {
-        try (Socket sock = new Socket(serverIp, serverPort)) {
-            InputStream in = sock.getInputStream();
-            OutputStream out = sock.getOutputStream();
-            DataInputStream datain = new DataInputStream(in);
-            DataOutputStream dataout = new DataOutputStream(out);
-
-            while (datain.available() > 0) {
-                datain.readByte();
-            }
-
-            // write command, param and value to heatpump socket
-            dataout.writeInt(SOCKET_PARAM_WRITE_PARAMS);
-            dataout.writeInt(param);
-            dataout.writeInt(value);
-            dataout.flush();
-
-            // first integer on socket output should represent the command
-            int cmd = datain.readInt();
-            datain.readInt();
-
-            datain.close();
-            dataout.close();
-
-            if (cmd != SOCKET_PARAM_WRITE_PARAMS) {
-                logger.debug("Couldn't write parameter {} with value {} to heat pump.", param, value);
-                return false;
-            } else {
-                logger.debug("Parameter {} with value {} successfully written to heat pump.", param, value);
-                return true;
-            }
-        }
+        logger.error("too risky, removed possibility to modify heat pump values!");
+        return false;
     }
 
     /**
